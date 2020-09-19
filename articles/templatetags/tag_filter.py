@@ -1,3 +1,5 @@
+import operator
+
 from django.template import library
 from articles.models import  Membership
 
@@ -10,11 +12,10 @@ def tag_present(value):
     for member in membership:
         if str(value) == str(member.article):
             temp_tag_dict[str(member.hashtag)] = str(member.main_tag)
-    list(temp_tag_dict).sort(key=lambda i: i[1])
-    temp_tag_list = []
-    for tag in temp_tag_dict:
-        temp_tag_list.append(tag)
-    return temp_tag_list
 
-
-
+    sorted_all_tag = sorted(temp_tag_dict.items(), key=operator.itemgetter(1), reverse=True)
+    result_tag = []
+    for tag in sorted_all_tag:
+        sorted_list_tag = list(tag)[0]
+        result_tag.append(sorted_list_tag)
+    return result_tag
